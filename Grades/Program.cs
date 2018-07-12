@@ -20,7 +20,7 @@ namespace Grades
             sayings[3] = "In this part of the country.";
             sayings[4] = "Localized entirely within your kitchen?";
 
-            
+
 
             /*foreach (string saying in sayings)
             {
@@ -29,14 +29,41 @@ namespace Grades
             }*/
 
             GradeBook book = new GradeBook();
+
+            // Regester event
+            book.NameChanged += OnNameChanged;
+
+            book.Name = "Tomm's Grade Book";
+            book.Name = "";
+            book.Name = "Tomm's Grade Book";
+            book.Name = "Tom's Grade Book";
+
             book.AddGrade(91);
             book.AddGrade(87.3f);
             book.AddGrade(75);
 
             GradeStatistics stats = book.ComputeStatistics();
-            Console.WriteLine(stats.AverageGrade);
-            Console.WriteLine(stats.HighestGrade);
-            Console.WriteLine(stats.LowestGrade);
+            Console.WriteLine(book.Name);
+            WriteResult("Average", stats.AverageGrade);
+            WriteResult("Highest", (int)stats.HighestGrade);
+            WriteResult("Lowest", stats.LowestGrade);
+        }
+
+        static void WriteResult(string desc, int result)
+        {
+            Console.WriteLine(desc + ": " + result);
+        }
+
+        static void WriteResult(string desc, float result)
+        {
+            // Can use string interpolation with $
+            Console.WriteLine($"{desc}: {result}");
+        }
+
+        static void OnNameChanged(object sender, NameChangedEventArgs args)
+        {
+            Console.WriteLine($"Grade book changing name from {args.ExistingName} to {args.NewName}");
         }
     }
 }
+
